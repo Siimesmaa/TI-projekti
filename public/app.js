@@ -188,7 +188,7 @@ class TelemetryDashboard {
             ctx.beginPath();
             
             this.chartData.forEach((point, index) => {
-                const x = padding.left + (chartWidth * index / (this.chartData.length - 1 || 1));
+                const x = padding.left + (chartWidth * index / ((this.chartData.length - 1) || 1));
                 const normalizedTemp = (point.temperature - minTemp) / (maxTemp - minTemp);
                 const y = height - padding.bottom - (chartHeight * normalizedTemp);
                 
@@ -204,7 +204,7 @@ class TelemetryDashboard {
             // Draw points
             ctx.fillStyle = '#e74c3c';
             this.chartData.forEach((point, index) => {
-                const x = padding.left + (chartWidth * index / (this.chartData.length - 1 || 1));
+                const x = padding.left + (chartWidth * index / ((this.chartData.length - 1) || 1));
                 const normalizedTemp = (point.temperature - minTemp) / (maxTemp - minTemp);
                 const y = height - padding.bottom - (chartHeight * normalizedTemp);
                 
@@ -221,7 +221,7 @@ class TelemetryDashboard {
             const labelIndices = [0, Math.floor(this.chartData.length / 2), this.chartData.length - 1];
             labelIndices.forEach(index => {
                 if (index < this.chartData.length) {
-                    const x = padding.left + (chartWidth * index / (this.chartData.length - 1 || 1));
+                    const x = padding.left + (chartWidth * index / ((this.chartData.length - 1) || 1));
                     const time = new Date(this.chartData[index].timestamp).toLocaleTimeString();
                     ctx.fillText(time, x, height - padding.bottom + 20);
                 }

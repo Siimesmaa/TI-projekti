@@ -81,7 +81,7 @@ app.get('/api/telemetry/latest', (req, res) => {
 
 // GET /api/telemetry/history - Get recent telemetry samples
 app.get('/api/telemetry/history', (req, res) => {
-  const limit = parseInt(req.query.limit) || 100;
+  const limit = Math.min(parseInt(req.query.limit) || 100, MAX_HISTORY);
   
   if (isNaN(limit) || limit < 1) {
     return res.status(400).json({ error: 'Invalid limit parameter' });

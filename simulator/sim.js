@@ -11,6 +11,7 @@ let cycleTime = 2500; // Base cycle time in ms
 let temperature = 65; // Base temperature in °C
 let machineState = 'RUN';
 let faultCountdown = Math.floor(Math.random() * 20) + 30; // Random time until next fault
+let faultTimeout = null; // Track fault recovery timeout
 
 console.log('======================================');
 console.log('Telemetry Simulator Starting');
@@ -61,12 +62,15 @@ function generateTelemetry() {
       temperature = 80 + Math.random() * 15; // 80-95°C
       cycleTime = 0;
       
-      // Fault lasts 5-15 seconds
-      setTimeout(() => {
-        machineState = 'IDLE';
-        faultCountdown = Math.floor(Math.random() * 20) + 30; // Reset countdown
-        console.log('⚙️  Machine entering IDLE after FAULT');
-      }, (5 + Math.random() * 10) * 1000);
+      // Fault lasts 5-15 seconds (clear existing timeout to prevent race conditions)
+      if (!faultTimeout) {
+        faultTimeout = setTimeout(() => {
+          machineState = 'IDLE';
+          faultCountdown = Math.floor(Math.random() * 20) + 30; // Reset countdown
+          faultTimeout = null;
+          console.log('⚙️  Machine entering IDLE after FAULT');
+        }, (5 + Math.random() * 10) * 1000);
+      }
       break;
   }
 
