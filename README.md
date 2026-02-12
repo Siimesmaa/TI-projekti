@@ -20,6 +20,9 @@ This mini-project consists of three main components:
 - **In-memory data storage** with rolling history (last 1000 points)
 - **Auto-refresh dashboard** with connection status indicator
 - **Realistic simulation** with random faults and fluctuations
+- **Network support**: Run simulator on server, access dashboard from any device on the network
+- **CORS enabled**: Connect from remote web clients
+- **Standalone remote client**: HTML file for direct access without Node.js on client
 
 ## 📋 Prerequisites
 
@@ -231,6 +234,8 @@ Press `Ctrl+C` in each terminal window to stop the server and simulator.
 ### Network Configuration (Simulator on Server, Webapp on PC)
 
 You can run the simulator on a server and access the dashboard from another device on the network.
+
+📘 **For detailed network configuration instructions, see [NETWORK_CONFIGURATION.md](NETWORK_CONFIGURATION.md)**
 
 #### Option 1: Using the Built-in Web Dashboard
 
