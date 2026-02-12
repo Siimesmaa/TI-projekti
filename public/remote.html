@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Industrial Internet Telemetry Dashboard</title>
+    <title>Industrial Internet Telemetry Dashboard - Remote Client</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
             <h1>🏭 Industrial Internet Telemetry Dashboard</h1>
+            <div class="config-bar">
+                <label for="server-url">Server URL:</label>
+                <input type="text" id="server-url" placeholder="http://192.168.1.100:3000" value="">
+                <button id="connect-btn">Connect</button>
+            </div>
             <div id="connection-status" class="status-indicator">
                 <span class="status-dot"></span>
-                <span id="status-text">Connecting...</span>
+                <span id="status-text">Not connected</span>
             </div>
         </header>
 
@@ -94,18 +99,40 @@
 
         <footer>
             <p>Last updated: <span id="last-update">--</span></p>
+            <p style="margin-top: 10px; font-size: 12px; color: #7f8c8d;">
+                Remote Client Mode - Enter server URL above to connect
+            </p>
         </footer>
     </div>
 
-    <!-- Configuration for remote server connection -->
-    <!-- To connect to a remote server, uncomment and set API_BASE_URL -->
-    <!-- Example: <script>window.API_BASE_URL = 'http://192.168.1.100:3000';</script> -->
     <script>
-        // Auto-detect API base URL from current location, or use custom if set
-        if (!window.API_BASE_URL) {
-            // Default: use same origin (works for local and when served from server)
-            window.API_BASE_URL = window.location.origin;
+        // Remote client configuration
+        // Load saved server URL from localStorage
+        const savedServerUrl = localStorage.getItem('serverUrl');
+        if (savedServerUrl) {
+            document.getElementById('server-url').value = savedServerUrl;
+            window.API_BASE_URL = savedServerUrl;
         }
+
+        // Handle connect button
+        document.getElementById('connect-btn').addEventListener('click', () => {
+            const serverUrl = document.getElementById('server-url').value.trim();
+            if (serverUrl) {
+                // Remove trailing slash if present
+                window.API_BASE_URL = serverUrl.replace(/\/$/, '');
+                localStorage.setItem('serverUrl', window.API_BASE_URL);
+                
+                // Reload the dashboard with new URL
+                location.reload();
+            }
+        });
+
+        // Allow Enter key in input field
+        document.getElementById('server-url').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                document.getElementById('connect-btn').click();
+            }
+        });
     </script>
     <script src="app.js"></script>
 </body>

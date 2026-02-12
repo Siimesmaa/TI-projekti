@@ -1,6 +1,8 @@
 // Dashboard Application
 class TelemetryDashboard {
     constructor() {
+        // API Base URL - can be configured via window.API_BASE_URL or defaults to current host
+        this.apiBaseUrl = window.API_BASE_URL || '';
         this.updateInterval = 1000; // 1 second
         this.chartData = [];
         this.maxChartPoints = 60; // Show last 60 data points
@@ -24,7 +26,7 @@ class TelemetryDashboard {
 
     async fetchLatest() {
         try {
-            const response = await fetch('/api/telemetry/latest');
+            const response = await fetch(`${this.apiBaseUrl}/api/telemetry/latest`);
             if (response.ok) {
                 const data = await response.json();
                 this.updateLatestValues(data);
@@ -42,7 +44,7 @@ class TelemetryDashboard {
 
     async fetchHistory(limit = 60) {
         try {
-            const response = await fetch(`/api/telemetry/history?limit=${limit}`);
+            const response = await fetch(`${this.apiBaseUrl}/api/telemetry/history?limit=${limit}`);
             if (response.ok) {
                 const result = await response.json();
                 return result.data;

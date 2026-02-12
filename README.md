@@ -228,6 +228,94 @@ Press `Ctrl+C` in each terminal window to stop the server and simulator.
 
 ## ⚙️ Configuration
 
+### Network Configuration (Simulator on Server, Webapp on PC)
+
+You can run the simulator on a server and access the dashboard from another device on the network.
+
+#### Option 1: Using the Built-in Web Dashboard
+
+**On the Server:**
+
+1. **Start the server** (it will listen on all network interfaces by default):
+   ```cmd
+   npm run server
+   ```
+
+2. **Find your server's IP address**:
+   - Windows: `ipconfig` (look for IPv4 Address)
+   - Linux/Mac: `ip addr` or `ifconfig`
+   - Example: `192.168.1.100`
+
+3. **Start the simulator** (it will connect to localhost by default):
+   ```cmd
+   npm run sim
+   ```
+
+**On the Client PC:**
+
+1. Open a web browser
+2. Navigate to: `http://<server-ip>:3000/`
+   - Example: `http://192.168.1.100:3000/`
+3. The dashboard will automatically connect to the server and display real-time data
+
+#### Option 2: Using the Standalone Remote Client
+
+If you want to access the dashboard without installing Node.js on the client PC:
+
+**On the Server:**
+1. Start the server as described above
+
+**On the Client PC:**
+1. Copy the `public` folder to your client PC
+2. Open `public/remote.html` in a web browser
+3. Enter the server URL (e.g., `http://192.168.1.100:3000`)
+4. Click "Connect"
+5. The dashboard will connect and display real-time data
+
+#### Option 3: Simulator on Remote Server
+
+To run the simulator on a different machine than the server:
+
+**On the Simulator Machine:**
+
+Set the `SERVER_URL` environment variable to point to your server's IP:
+
+```cmd
+# Windows
+set SERVER_URL=192.168.1.100
+set SERVER_PORT=3000
+npm run sim
+```
+
+```bash
+# Linux/Mac
+export SERVER_URL=192.168.1.100
+export SERVER_PORT=3000
+npm run sim
+```
+
+Or edit `simulator/sim.js` directly:
+```javascript
+const SERVER_URL = process.env.SERVER_URL || '192.168.1.100';
+const SERVER_PORT = process.env.SERVER_PORT || 3000;
+```
+
+### Environment Variables
+
+Create a `.env` file (see `.env.example`) to configure:
+
+```env
+# Server Configuration
+PORT=3000              # Server port
+HOST=0.0.0.0          # Bind to all interfaces (allows remote connections)
+
+# Simulator Configuration  
+SERVER_URL=localhost   # Server IP or hostname
+SERVER_PORT=3000      # Server port
+```
+
+**Note**: This project doesn't include dotenv package, so environment variables must be set manually or edit the files directly.
+
 ### Change Server Port
 
 Edit `server/index.js`:
