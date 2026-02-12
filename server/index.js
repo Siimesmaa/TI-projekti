@@ -1,10 +1,16 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || '0.0.0.0';
 
 // Middleware
+// Note: CORS is enabled for all origins (*) for ease of use in demo/development.
+// For production use, restrict CORS to specific origins:
+// app.use(cors({ origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000'] }));
+app.use(cors()); // Enable CORS for all origins (allows webapp from different host)
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
@@ -107,16 +113,22 @@ app.get('/api/health', (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, HOST, () => {
   console.log(`======================================`);
   console.log(`Industrial Internet Telemetry Server`);
   console.log(`======================================`);
-  console.log(`Server running on http://localhost:${PORT}`);
-  console.log(`Dashboard: http://localhost:${PORT}/`);
+  console.log(`Server running on http://${HOST}:${PORT}`);
+  console.log(`Dashboard: http://${HOST}:${PORT}/`);
   console.log(`API endpoints:`);
   console.log(`  POST   /api/telemetry`);
   console.log(`  GET    /api/telemetry/latest`);
   console.log(`  GET    /api/telemetry/history?limit=N`);
   console.log(`  GET    /api/health`);
+  console.log(`======================================`);
+  console.log(`Network configuration:`);
+  console.log(`  To access from other devices on network:`);
+  console.log(`  1. Find your server's IP address`);
+  console.log(`  2. Open http://<server-ip>:${PORT}/ on client device`);
+  console.log(`  3. Configure simulator with SERVER_URL=<server-ip>`);
   console.log(`======================================`);
 });
