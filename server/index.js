@@ -7,6 +7,9 @@ const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || '0.0.0.0';
 
 // Middleware
+// Note: CORS is enabled for all origins (*) for ease of use in demo/development.
+// For production use, restrict CORS to specific origins:
+// app.use(cors({ origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000'] }));
 app.use(cors()); // Enable CORS for all origins (allows webapp from different host)
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));

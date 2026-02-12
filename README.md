@@ -314,7 +314,7 @@ SERVER_URL=localhost   # Server IP or hostname
 SERVER_PORT=3000      # Server port
 ```
 
-**Note**: This project doesn't include dotenv package, so environment variables must be set manually or edit the files directly.
+**Note**: This project doesn't include dotenv package, so environment variables must be set manually or the files must be edited directly.
 
 ### Change Server Port
 
@@ -406,10 +406,12 @@ Edit `simulator/sim.js` in the `generateTelemetry()` function to adjust:
 
 ## 🔒 Security Notes
 
-- This is a demo project for local development
+- This is a demo project for local development and educational purposes
 - No authentication or authorization implemented
+- CORS is enabled for all origins (`*`) for ease of use - restrict to specific origins for production
 - Not intended for production use without additional security measures
 - Input validation is basic
+- When exposing the server on a network, ensure proper firewall rules are in place
 
 ## 📚 Technologies Used
 
