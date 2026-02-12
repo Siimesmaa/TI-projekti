@@ -1,0 +1,53 @@
+name: Git Setup - Full History Checkout
+
+# This workflow can be called by other workflows or run manually
+# It ensures full git history is available to prevent "git show" errors
+on:
+  workflow_call:
+    # No inputs needed - this workflow just sets up git properly
+  workflow_dispatch:
+    # Allows manual triggering for testing
+
+jobs:
+  git-setup:
+    name: Setup Git with Full History
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository with full history
+        uses: actions/checkout@v4
+        with:
+          # fetch-depth: 0 ensures all git history is fetched
+          # Prevents errors like:
+          # "fatal: path 'file' exists on disk, but not in 'commit-sha'"
+          fetch-depth: 0
+
+          # Fetch all branches to ensure complete repository state
+          ref: ${{ github.ref }}
+
+      - name: Fetch all tags
+        run: |
+          git fetch --tags --force
+          echo "✓ All tags fetched"
+
+      - name: Fetch all branches
+        run: |
+          git fetch --all
+          echo "✓ All branches fetched"
+
+      - name: Configure git
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          echo "✓ Git configured for safe directory access"
+
+      - name: Verify git history
+        run: |
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo ""
+          echo "Available commits: $(git rev-list --count HEAD)"
+          echo "Available tags: $(git tag | wc -l)"
+          echo "Available branches: $(git branch -r | wc -l)"
+          echo ""
+          echo "✓ Full git history is available"
