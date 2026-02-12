@@ -1,0 +1,22 @@
+{
+  "name": "ti-projekti",
+  "version": "1.0.0",
+  "description": "Industrial Internet mini-project - Telemetry monitoring system",
+  "main": "server/index.js",
+  "scripts": {
+    "server": "node server/index.js",
+    "sim": "node simulator/sim.js",
+    "dev": "node server/index.js",
+    "start": "npm run server"
+  },
+  "keywords": [
+    "industrial-iot",
+    "telemetry",
+    "monitoring"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industrial Internet Telemetry Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏭 Industrial Internet Telemetry Dashboard</h1>
+            <div id="connection-status" class="status-indicator">
+                <span class="status-dot"></span>
+                <span id="status-text">Connecting...</span>
+            </div>
+        </header>
+
+        <main>
+            <!-- Latest Values Section -->
+            <section class="latest-values">
+                <h2>Latest Telemetry</h2>
+                <div class="cards-grid">
+                    <div class="card" id="state-card">
+                        <div class="card-header">Machine State</div>
+                        <div class="card-value" id="machine-state">--</div>
+                        <div class="card-timestamp" id="state-timestamp">--</div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">Temperature</div>
+                        <div class="card-value" id="temperature">--</div>
+                        <div class="card-unit">°C</div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">Cycle Time</div>
+                        <div class="card-value" id="cycle-time">--</div>
+                        <div class="card-unit">ms</div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">Good Count</div>
+                        <div class="card-value" id="good-count">--</div>
+                        <div class="card-unit">parts</div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">Reject Count</div>
+                        <div class="card-value" id="reject-count">--</div>
+                        <div class="card-unit">parts</div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">Quality Rate</div>
+                        <div class="card-value" id="quality-rate">--</div>
+                        <div class="card-unit">%</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Temperature Chart Section -->
+            <section class="chart-section">
+                <h2>Temperature Trend</h2>
+                <div class="chart-container">
+                    <canvas id="temperature-chart"></canvas>
+                </div>
+            </section>
+
+            <!-- Recent History Section -->
+            <section class="history-section">
+                <h2>Recent History (Last 10 samples)</h2>
+                <div class="history-table-container">
+                    <table id="history-table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>State</th>
+                                <th>Temp (°C)</th>
+                                <th>Cycle (ms)</th>
+                                <th>Good</th>
+                                <th>Reject</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-body">
+                            <tr>
+                                <td colspan="6" class="no-data">Waiting for data...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Last updated: <span id="last-update">--</span></p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
