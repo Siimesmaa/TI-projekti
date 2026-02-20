@@ -1,9 +1,9 @@
 // Dashboard Application
 class TelemetryDashboard {
     constructor() {
-        this.updateInterval = 1000; // 1 second
+        this.updateInterval = 1000;
         this.chartData = [];
-        this.maxChartPoints = 60; // Show last 60 data points
+        this.maxChartPoints = 60;
         this.canvas = document.getElementById('temperature-chart');
         this.ctx = this.canvas.getContext('2d');
         this.initChart();
@@ -32,6 +32,9 @@ class TelemetryDashboard {
                 return data;
             } else if (response.status === 404) {
                 this.updateConnectionStatus(true, 'Waiting for data...');
+            }
+            else if (response.status === 304) {
+                this.updateConnectionStatus(false, 'Server error');
             }
         } catch (error) {
             console.error('Error fetching latest data:', error);
@@ -252,7 +255,7 @@ class TelemetryDashboard {
     }
 }
 
-// Initialize dashboard when page loads
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Initializing Telemetry Dashboard...');
     new TelemetryDashboard();
